@@ -11,7 +11,7 @@ public class User {
     private String password;
     private String passwordConfirm;
     private Set<Role> roles;
-
+    private Long officeId;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
@@ -56,4 +56,15 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public Long getOfficeId() {
+		return officeId;
+	}
+    
+    @ManyToMany(mappedBy = "office")
+	public void setOfficeId(Long officeId) {
+		this.officeId = officeId;
+	}
+    
+    
 }
