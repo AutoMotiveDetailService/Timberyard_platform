@@ -42,6 +42,14 @@ public class UserController {
     public String registration(@RequestBody Office officeForm, BindingResult bindingResult, Model model) {
 
     	Office office = userService.saveOffice(officeForm);
+    	User user = new User();
+    	user.setOfficeId(office.getId());
+    	user.setPassword("password");
+    	user.setPasswordConfirm("password");
+    	user.setUsername("admin");
+    	User user1 =userService.save(user);
+    	office.setUserName(user1.getUsername());
+    	office.setPassword("password");
         return this.toApiJsonSerializer.serialize(office);
     }
 
