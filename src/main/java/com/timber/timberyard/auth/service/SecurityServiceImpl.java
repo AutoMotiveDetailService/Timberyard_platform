@@ -10,6 +10,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.sun.jersey.core.util.Base64;
+import com.timber.timberyard.auth.model.AuthenticationData;
+
 @Service
 public class SecurityServiceImpl implements SecurityService {
 
@@ -32,17 +35,20 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Boolean autologin(String username, String password) {
+    public AuthenticationData autologin(String username, String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 
         authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
+        byte[] base64EncodedAuthenticationKey = null;
+        
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             logger.debug(String.format("Auto login %s successfully!", username));
-            return true;
+            base64EncodedAuthenticationKey = Base64.encode(username + ":" + password);
+            return new AuthenticationData(new String(base64EncodedAuthenticationKey),true);
         }
-        return false;
+        return new AuthenticationData(new String(base64EncodedAuthenticationKey),false);
     }
 }
