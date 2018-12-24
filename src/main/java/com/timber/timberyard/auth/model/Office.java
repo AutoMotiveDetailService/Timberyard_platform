@@ -32,6 +32,11 @@ public class Office {
 	
 	private String address;
 	
+	private String UserName;
+	
+	private String Password;
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
@@ -104,6 +109,30 @@ public class Office {
 
 	public void setPrefixName(String prefixName) {
 		this.prefixName = prefixName;
+	}
+
+	public String getLotNumber() {
+		return lotNumber;
+	}
+
+	public void setLotNumber(String lotNumber) {
+		this.lotNumber = lotNumber;
+	}
+
+	public String getUserName() {
+		return UserName;
+	}
+
+	public void setUserName(String userName) {
+		UserName = userName;
+	}
+
+	public String getPassword() {
+		return Password;
+	}
+
+	public void setPassword(String password) {
+		Password = password;
 	}
 	
 	
